@@ -1,9 +1,6 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+const utils = require('./utils')
+const fs = require('fs')
 
 /**
  * 自动提示实现，这里模拟一个很简单的操作
@@ -15,16 +12,19 @@ const vscode = require('vscode');
  * @param {*} context
  */
 function provideCompletionItems(document, position, token, context) {
-	const line		= document.lineAt(position);
-	console.log(document)
-	console.log(context)
+	const line = document.lineAt(position)
+	const projectPath = utils.getYuntaiProjectSourcePath(document)
+	console.log(projectPath)
+	const themeParent = `${projectPath}/styles/`
+	const themeNames = ['them.scss', 'theme.scss']
+	let themeFile = themeParent + themeNames.find(path => fs.existsSync(`${themeParent}${path}`))
+	if (themeFile.endsWith('.scss')) {
+		let themeFileArray = fs.readFileSync(themeFile).toString().split('\n').filter(item => item.startsWith('$'))
 
-	return [
-		new vscode.CompletionItem('test1', vscode.CompletionItemKind.Field),
-		new vscode.CompletionItem('test2', vscode.CompletionItemKind.Field),
-		new vscode.CompletionItem('test3', vscode.CompletionItemKind.Field),
-		new vscode.CompletionItem('test4', vscode.CompletionItemKind.Field),
-	]
+		return themeFileArray.map(item => {
+			return new vscode.CompletionItem(item.split(":")[0], vscode.CompletionItemKind.Field)
+		})
+	}
 
 	// const projectPath = util.getProjectPath(document);
 
@@ -59,7 +59,7 @@ function activate(context) {
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('vue', {
 		provideCompletionItems,
 		resolveCompletionItem
-	}, '.'));
+	}, '$'));
 }
 
 exports.activate = activate;

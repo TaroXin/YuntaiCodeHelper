@@ -44,6 +44,17 @@ const util = {
         }
         return projectPath;
     },
+    getYuntaiProjectSourcePath (document) {
+      const currentFile = (document.uri ? document.uri : document).fsPath;
+      let projectPath = null;
+      projectPath = currentFile.substring(0, currentFile.indexOf('/src/') + 4)
+
+      if (!projectPath) {
+        this.showError('获取工程根路径异常！');
+        return '';
+    }
+      return projectPath
+    },
     /**
      * 获取当前工程名
      */
