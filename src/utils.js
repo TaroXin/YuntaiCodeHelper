@@ -44,16 +44,76 @@ const util = {
         }
         return projectPath;
     },
+    /**
+     * 获取芸苔项目 src 目录
+     */
     getYuntaiProjectSourcePath (document) {
-      const currentFile = (document.uri ? document.uri : document).fsPath;
+      let currentFile = (document.uri ? document.uri : document).fsPath;
+      if (typeof document === 'string') {
+        currentFile = document
+      }
+
+      let splitVar = null
+      if (process.platform.startsWith('win')) {
+        splitVar = '\\src\\'
+      } else {
+        splitVar = '/src/'
+      }
+
       let projectPath = null;
-      projectPath = currentFile.substring(0, currentFile.indexOf('/src/') + 4)
+      projectPath = currentFile.substring(0, currentFile.indexOf(splitVar) + 4)
 
       if (!projectPath) {
         this.showError('获取工程根路径异常！');
         return '';
-    }
+      }
       return projectPath
+    },
+    /**
+     * 获取芸苔项目根目录
+     */
+    getYuntaiProjectRootPath (document) {
+      let currentFile = (document.uri ? document.uri : document).fsPath
+      if (typeof document === 'string') {
+        currentFile = document
+      }
+
+      if (currentFile && !currentFile.includes('src')) {
+        return currentFile
+      }
+
+      let splitVar = null
+      if (process.platform.startsWith('win')) {
+        splitVar = '\\src\\'
+      } else {
+        splitVar = '/src/'
+      }
+
+      let projectPath = null;
+      projectPath = currentFile.substring(0, currentFile.indexOf(splitVar))
+      if (!projectPath) {
+        this.showError('获取工程根路径异常！')
+        return ''
+      }
+      return projectPath
+    },
+    /**
+     * 判断目录是否是文件夹
+     */
+    isDirectory (path) {
+      return fs.statSync(path).isDirectory()
+    },
+    /**
+     * 判断项目是否已经初始化
+     */
+    checkProjectInitial (path) {
+      return fs.existsSync(this.getConfigFilePath(path))
+    },
+    /**
+     * 获得全局配置文件的路径
+     */
+    getConfigFilePath (path) {
+      return this.getYuntaiProjectRootPath(path) + '/yuntai.config.js'
     },
     /**
      * 获取当前工程名

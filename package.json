@@ -2,7 +2,7 @@
 	"name": "yuntai-code",
 	"displayName": "YuntaiCodeHelper",
 	"description": "广州油菜花芸苔事业部VsCode帮助插件",
-	"version": "0.0.1",
+	"version": "0.0.4",
 	"publisher": "TaroXin",
 	"engines": {
 		"vscode": "^1.30.0"
@@ -15,20 +15,53 @@
 	],
 	"main": "./src/extension.js",
 	"contributes": {
-		"commands": [{
-			"command": "extension.helloWorld",
-			"title": "Hello World"
-		}]
+		"commands": [
+			{
+				"command": "extension.yuntai.GenerateIcon",
+				"title": "Yuntai: Generate Icon"
+			},
+			{
+				"command": "extension.yuntai.GenerateApi",
+				"title": "Yuntai: Generate API"
+			},
+			{
+				"command": "extension.yuntai.GenerateModule",
+				"title": "Yuntai: Generate Module"
+			},
+			{
+				"command": "extension.yuntai.InitialConfig",
+				"title": "Yuntai: Initial Config"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.yuntai.GenerateIcon"
+				},
+				{
+					"command": "extension.yuntai.GenerateApi"
+				},
+				{
+					"command": "extension.yuntai.GenerateModule"
+				},
+				{
+					"command": "extension.yuntai.InitialConfig"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"typescript": "^3.1.4",
-		"vscode": "^1.1.25",
-		"eslint": "^4.11.0",
+		"@types/mocha": "^2.2.42",
 		"@types/node": "^8.10.25",
-		"@types/mocha": "^2.2.42"
+		"eslint": "^4.11.0",
+		"typescript": "^3.1.4",
+		"vscode": "^1.1.25"
+	},
+	"dependencies": {
+		"superagent": "^4.1.0"
 	}
 }
