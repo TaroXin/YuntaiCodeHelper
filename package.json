@@ -2,7 +2,7 @@
 	"name": "yuntai-code",
 	"displayName": "YuntaiCodeHelper",
 	"description": "广州油菜花芸苔事业部VsCode帮助插件",
-	"version": "0.0.4",
+	"version": "1.0.0",
 	"publisher": "TaroXin",
 	"engines": {
 		"vscode": "^1.30.0"
@@ -21,6 +21,10 @@
 				"title": "Yuntai: Generate Icon"
 			},
 			{
+				"command": "extension.yuntai.GenerateIconSVG",
+				"title": "Yuntai: Generate Icon SVG"
+			},
+			{
 				"command": "extension.yuntai.GenerateApi",
 				"title": "Yuntai: Generate API"
 			},
@@ -37,6 +41,9 @@
 			"explorer/context": [
 				{
 					"command": "extension.yuntai.GenerateIcon"
+				},
+				{
+					"command": "extension.yuntai.GenerateIconSVG"
 				},
 				{
 					"command": "extension.yuntai.GenerateApi"
@@ -62,6 +69,8 @@
 		"vscode": "^1.1.25"
 	},
 	"dependencies": {
+		"cheerio": "^1.0.0-rc.2",
+		"compressing": "^1.4.0",
 		"superagent": "^4.1.0"
 	}
 }

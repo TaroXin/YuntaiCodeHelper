@@ -1,3 +1,4 @@
+const vscode = require('vscode')
 const fs = require('fs')
 const utils = require('./utils')
 
@@ -24,4 +25,6 @@ module.exports = (uri) => {
     fs.writeFileSync(configFilePath, configContent)
     utils.showInfo('创建成功，请完善相关信息')
   }
+
+  vscode.window.showTextDocument(vscode.Uri.file(configFilePath))
 }

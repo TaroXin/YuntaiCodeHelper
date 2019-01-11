@@ -38,6 +38,7 @@ function activate(context) {
 	}, '$'));
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.yuntai.GenerateIcon', generateIcon))
+	context.subscriptions.push(vscode.commands.registerCommand('extension.yuntai.GenerateIconSVG', (uri) => { generateIcon(uri, { isSvg: true }) }))
 	context.subscriptions.push(vscode.commands.registerCommand('extension.yuntai.InitialConfig', initialConfig))
 }
 

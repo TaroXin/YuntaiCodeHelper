@@ -104,6 +104,30 @@ const util = {
       return fs.statSync(path).isDirectory()
     },
     /**
+     * 删除文件
+     */
+    rmFile (path) {
+      fs.unlinkSync(path)
+    },
+    /**
+     * 删除文件夹
+     */
+    rmDir (path) {
+      var files = [];
+      if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file, index){
+          let curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) { // recurse
+            util.rmDir(curPath)
+          } else { // delete file
+            fs.unlinkSync(curPath);
+          }
+        });
+        fs.rmdirSync(path);
+      }
+    },
+    /**
      * 判断项目是否已经初始化
      */
     checkProjectInitial (path) {
